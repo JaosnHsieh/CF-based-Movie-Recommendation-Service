@@ -1,2 +1,19 @@
-# CF-based-Movie-Recommendation-Service
-CF(Collaborative Filtering)-based Movie Recommendation Service
+# UI toolkit
+- [Semantic UI React](http://react.semantic-ui.com)
+
+
+# How to run the environment
+
+# for development
+
+```bash
+npm install
+npm start
+```
+
+# for production
+```bash
+npm install
+npm run build
+npm run prod
+```

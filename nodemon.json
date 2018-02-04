@@ -1,0 +1,16 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    "components/",
+    ".next/",
+    "pages/",
+    "hocs/",
+    "modules/"
+  ],
+  "env": {
+    "NODE_ENV": "develop"
+  },
+  "ext": "js json"
+}
