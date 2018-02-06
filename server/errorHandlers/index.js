@@ -1,22 +1,33 @@
+import errorMapping from './errorCode';
 module.exports = function(app) {
 
     app.use(function(err, req, res, next) {
-        let { data, status } = err.response ? err.response : err;
-        if (typeof data === 'string'){
-            data = { status, msg: data };
+        const errorFormat = errorMapping[err.message];
+
+        let options = {};
+
+        // 自定義的 error 處理
+        if (errorFormat) {
+            options = errorFormat;
         }
 
-        let errObject = {
-            ...data, //include meesage & status code
-        };
+        // 其他底層錯誤處理
+        if(!errorMessage && err && !err.errors) {
+            options.statusCode = 503;
+            options.message = err.message;
+            options.stack = err.stack.split('\n');
+        }
 
         console.log('-------------- ERROR --------------');
-        console.log(errObject);
+        console.log(options);
         console.log('-------------- ERROR --------------');
 
-        res.status(errObject.Status || 500);
+        res.status(options.statusCode);
 
-        return res.json(errObject);
+        return res.json({
+            statusCode: options.statusCode,
+            message: options.message
+        });
     });
 
     return function(req, res, next) {

@@ -4,6 +4,7 @@ import login from './login';
 import logout from './logout';
 import resetpw from './resetpw';
 import signup from './signup';
+import verifyCode from './verifyCode';
 
 let router = express.Router();
 
@@ -22,4 +23,6 @@ router.route('/resetpw')
 router.route('/signup')
     .post(signup);
 
+router.route('/verifyCode')
+    .post(verifyCode);
 module.exports = router;

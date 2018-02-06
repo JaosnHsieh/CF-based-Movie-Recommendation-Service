@@ -18,7 +18,7 @@ global.db = db;
 
 app.prepare().then(() => {
   server.use(bodyParser.json())
-
+  server.use(bodyParser.urlencoded({ extended: false }));
   server.set('trust proxy', 1) // trust first proxy
 
   server.use(cookieSession({
