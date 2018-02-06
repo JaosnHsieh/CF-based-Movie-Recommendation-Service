@@ -6,7 +6,7 @@ const next = require('next')
 const { parse } = require('url')
 const bodyParser = require('body-parser') // turns the body into json object
 const isDev = process.env.NODE_ENV === 'develop'
-const app = next({ dev: isDev })
+const app = next({ dir: './client', dev: isDev })
 const handle = app.getRequestHandler()
 const port = process.env.PORT || 3000
 const server = express()

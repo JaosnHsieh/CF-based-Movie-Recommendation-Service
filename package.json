@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "npm run dev",
-    "build": "next build",
+    "build": "next build client",
     "prod": "NODE_ENV=production node server.js",
     "staging": "NODE_ENV=staging node server.js",
     "dev": "NODE_ENV=develop DEBUG=Movie-Recommendation* nodemon server.js"
