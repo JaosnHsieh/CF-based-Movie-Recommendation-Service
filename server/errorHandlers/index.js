@@ -12,7 +12,7 @@ module.exports = function(app) {
         }
 
         // 其他底層錯誤處理
-        if(!errorMessage && err && !err.errors) {
+        if(!errorFormat && err && !err.errors) {
             options.statusCode = 503;
             options.message = err.message;
             options.stack = err.stack.split('\n');
