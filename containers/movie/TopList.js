@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Grid } from 'semantic-ui-react'
 import Block from '../../components/movie/Block'
+import Pagination from '../../components/movie/Pagination'
 
 export class HomeIndex extends Component {
 
@@ -22,9 +23,12 @@ export class HomeIndex extends Component {
     })
 
     return (
-      <Grid columns={5} doubling>
-        { items }
-      </Grid>
+      <div>
+        <Grid columns={3} doubling>
+          { items }
+        </Grid>
+        <Pagination />
+      </div>
     )
   }
 }

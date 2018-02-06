@@ -1,17 +1,24 @@
 # UI toolkit
 - [Semantic UI React](http://react.semantic-ui.com)
 
+## Note
 
-# How to run the environment
+Create your local develop.json and update it.
 
-# for development
+```
+cp config/default.json config/develop.json
+```
+
+## How to run the environment
+
+### for development
 
 ```bash
 npm install
 npm start
 ```
 
-# for production
+### for production
 ```bash
 npm install
 npm run build

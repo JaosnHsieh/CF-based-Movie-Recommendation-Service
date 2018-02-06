@@ -1,11 +1,10 @@
 import React from 'react'
-import { Label, Segment } from 'semantic-ui-react'
-const Block = ({ date, id, score, tags, title }) => (
+import { Label, Rating, Segment } from 'semantic-ui-react'
+const Block = ({ date, id, score, genres, title }) => (
   <Segment color='orange'>
     <h3>{ title }</h3>
-    <div>Rank: { score }</div>
-    <div>Released Year: { new Date(date).getFullYear() }</div>
-    <div>Type: { tags.join(',') }</div>
+    <Rating icon='star' defaultRating={3} maxRating={5} disabled />
+    <div>{ genres }</div>
   </Segment>
 )
 export default Block

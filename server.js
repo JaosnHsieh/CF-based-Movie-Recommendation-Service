@@ -10,9 +10,11 @@ const app = next({ dev: isDev })
 const handle = app.getRequestHandler()
 const port = process.env.PORT || 3000
 const server = express()
+const db = require('./models/')
 const apis = require('./server/apis')
 const errorHandlers = require('./server/errorHandlers')
 const isAuthenticated = require('./server/middlewares/isAuthenticated')
+global.db = db;
 
 app.prepare().then(() => {
   server.use(bodyParser.json())
