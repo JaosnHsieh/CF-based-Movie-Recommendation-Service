@@ -28,9 +28,9 @@ module.exports = (sequelize, DataTypes) => {
             },
             comment: '原始密碼傳入後會轉換成加密（此欄位為虛擬不會真實存在）',
         },
-        username: {
+        nickname: {
             type: DataTypes.STRING,
-            comment: '姓名',
+            comment: '暱稱',
         }
     }, {
         comment: '會員資料表',
