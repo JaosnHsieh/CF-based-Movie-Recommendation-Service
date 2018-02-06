@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import checkPassword from '../../../libs/checkPassword';
+import checkPassword from '../../libs/checkPassword';
 const debug = Debug('Movie-Recommendation: api:controllers:auth:login');
 module.exports = async (req, res, next) => {
 

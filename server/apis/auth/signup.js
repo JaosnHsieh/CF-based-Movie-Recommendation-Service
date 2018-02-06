@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import redis from '../../../redis';
+import redis from '../../redis';
 const debug = Debug('Movie-Recommendation: server:apis:auth:signup');
 module.exports = async (req, res, next) => {
 
