@@ -13,10 +13,10 @@ const actionTypes = {
   FETCH_TOP_MOVIE_LIST_FAIL: 'FETCH_TOP_MOVIE_LIST_FAIL',
 }
 
-export const onFetchTopMovieList = () => async dispatch => {
+export const onFetchTopMovieList = (host) => async dispatch => {
   try {
     dispatch({ type: actionTypes.FETCH_TOP_MOVIE_LIST_REQUEST });
-    const res = await axios.get('http://localhost:3000/api/movie');
+    const res = await axios.get(`http://${host}/api/movie`);
     return dispatch({ type: actionTypes.FETCH_TOP_MOVIE_LIST_SUCCESS, payload: res.data });
   } catch (a) {
     dispatch({ type: actionTypes.FETCH_TOP_MOVIE_LIST_FAIL });

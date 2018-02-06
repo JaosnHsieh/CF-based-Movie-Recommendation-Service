@@ -8,9 +8,10 @@ import axios from 'axios';
 const pageTitle = 'Movie-Recommendation | 個人資料'
 
 export class MePage extends Component {
-  static getInitialProps = async ({ store, isServer }) => {
+  static getInitialProps = async ({ store, req }) => {
     try {
-      const user = await axios.get('http://localhost:8000/api/member');
+      const host = req.headers.host;
+      const user = await axios.get(`http://${host}/api/member`);
       store.dispatch({ type: 'INIT_MEMBER_DATA', payload: user.data })
     } catch (e) {
       console.log(e, '!!');

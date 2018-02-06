@@ -9,9 +9,10 @@ const pageTitle = 'Movie-Recommendation'
 
 export class HomePage extends Component {
 
-  static getInitialProps = async ({ store, isServer }) => {
+  static getInitialProps = async ({ store, req }) => {
     try {
-      await store.dispatch(onFetchTopMovieList())
+      const host = req.headers.host;
+      await store.dispatch(onFetchTopMovieList(host))
     } catch (e) {
       console.log(e, '!!');
     }

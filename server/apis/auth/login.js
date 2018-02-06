@@ -16,15 +16,19 @@ module.exports = async (req, res, next) => {
             throw new Error('10001');
         }
 
-        const isEuqaPassword = checkPassword(member.password, password);
+        const isEuqaPassword = checkPassword(member.hashedPassword, password);
 
         if (!isEuqaPassword) {
             throw new Error('10001');
         }
 
-        req.session.member = member;
-
         debug('member = %j', member);
+
+        req.session.member = {
+            id: member.id,
+            email: member.email,
+            nickname: member.nickname
+        };
 
         return res.json(member);
 

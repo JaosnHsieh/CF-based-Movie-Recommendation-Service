@@ -19,7 +19,7 @@ export class MeComponent extends Component {
       const response = await this.props.onSignup(formProps)
       toastr.success('更新成功！');
     } catch (e) {
-      toastr.error(e.msg);
+      toastr.error(e.message);
     }
   }
 
@@ -75,6 +75,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({switchType, onSignup}, dispatch)
+  return bindActionCreators({onSignup}, dispatch)
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MeForm)

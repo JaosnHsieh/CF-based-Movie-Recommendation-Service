@@ -11,10 +11,12 @@ const standardLayoutHoc = (Page, title) => {
       // send props to the parent > child container
       const pageProps =
         (await Page.getInitialProps) && (await Page.getInitialProps(ctx))
-
+      const { headers, session } = ctx.req;
       return {
         ...pageProps,
-        currentUrl: ctx.pathname
+        host: headers.host,
+        currentPath: ctx.pathname,
+        isLogined: session && session.member
       }
     }
     state = { visible: false }
@@ -24,10 +26,10 @@ const standardLayoutHoc = (Page, title) => {
     render () {
       const { visible } = this.state
       const menus = [
-        {href: '/member', icon: 'user', name: '會員資料'},
+        {href: '/member/me', icon: 'user', name: '會員資料'},
         // {href: '/member/updatepw', icon: 'privacy', name: '修改密碼'},
       ];
-      const hasAuth = false;
+      const isLogined = this.props.isLogined;
       return (
         <div>
           <Head>
@@ -44,7 +46,7 @@ const standardLayoutHoc = (Page, title) => {
               }
           `}</style>
           <Menu inverted id='mainMenu'>
-            {hasAuth && <Menu.Item onClick={this.toggleVisibility}>
+            {isLogined && <Menu.Item onClick={this.toggleVisibility}>
               <Icon name='content' />
             </Menu.Item>}
             <Menu.Item>
@@ -52,7 +54,7 @@ const standardLayoutHoc = (Page, title) => {
             </Menu.Item>
             <Menu.Menu position='right'>
               <div className='ui right aligned category search item'>
-                {hasAuth ? <a href='/api/auth/logout'>登出</a> : <a href='/auth/login'>登入</a>}
+                {isLogined ? <a href='/api/auth/logout'>登出</a> : <a href='/auth/login'>登入</a>}
               </div>
             </Menu.Menu>
           </Menu>

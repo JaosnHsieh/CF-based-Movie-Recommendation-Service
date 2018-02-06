@@ -4,7 +4,7 @@ const debug = Debug('Movie-Recommendation: server:apis:auth:signup');
 module.exports = async (req, res, next) => {
 
     try {
-        const { verifyCode, email, password, confirmPassword } = req.body;
+        const { verifyCode, email, password, confirmPassword, nickname } = req.body;
         const redisVerifyCodeKey = `verifyCode-${email}`;
 
         if (!email) {
@@ -35,7 +35,7 @@ module.exports = async (req, res, next) => {
 
 
 
-        const member = await db.Member.create({ email, password });
+        const member = await db.Member.create({ email, password, nickname });
 
         await redis.removeValue(redisVerifyCodeKey);
 

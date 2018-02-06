@@ -21,9 +21,9 @@ export class SignupComponent extends Component {
         ...formProps
       });
       toastr.success('註冊完成！');
-      window.location = `/login${window.location.search}`;
+      window.location = `/auth/login${window.location.search}`;
     } catch (e) {
-      toastr.error(e.msg);
+      toastr.error(e.message);
     }
   }
 
@@ -34,7 +34,7 @@ export class SignupComponent extends Component {
         ...this.props.signup.values
       });
     } catch (e) {
-      toastr.error(e.msg);
+      toastr.error(e.message);
     }
   }
 

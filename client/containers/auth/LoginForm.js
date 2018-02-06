@@ -19,9 +19,9 @@ export class LoginComponent extends Component {
         provider: this.props.auth.type,
         ...formProps
       });
-      window.location = '/member/me'
+      window.location = '/'
     } catch (e) {
-      toastr.error(e.msg);
+      toastr.error(e.message);
     }
   }
 

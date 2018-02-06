@@ -4,7 +4,6 @@ const initialState = {
   member: {},
   error: null,
   isLoading: false,
-  type: 'phone',
   verifyCodeTimer: 0
 }
 
@@ -20,7 +19,7 @@ const actionTypes = {
 
 export const getVerifyCode = (formProps) => async dispatch => {
   try {
-    await axios.post('/api/account/verifyCode', formProps);
+    await axios.post('/api/auth/verifyCode', formProps);
     dispatch({ type: actionTypes.START_TIMER });
     return setInterval(() => dispatch({ type: actionTypes.TICK }), 1000)
   } catch ({ response }) {
