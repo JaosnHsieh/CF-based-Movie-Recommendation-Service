@@ -23,6 +23,7 @@ Object.keys(db).forEach((modelName) => {
     }
 });
 
+
 (async() => {
     try {
         if (resetDB && env === 'develop') {

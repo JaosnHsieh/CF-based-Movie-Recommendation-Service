@@ -1,6 +1,6 @@
 import Debug from 'debug';
 
-const debug = Debug('Movie-Recommendation: api:controllers:movie:list');
+const debug = Debug('Movie-Recommendation: api:controllers:movie:topList');
 module.exports = async (req, res, next) => {
 
     try {

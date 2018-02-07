@@ -30,13 +30,10 @@ export class MeComponent extends Component {
         <Header textAlign='center' as='h1'>會員資料</Header>
         <Form onSubmit={this.props.handleSubmit(this.handleFormSubmit)}>
           <Form.Field>
-            <Field component={renderInput} type='text' required disabled name='account' />
+            <Field component={renderInput} type='text' required disabled name='email' />
           </Form.Field>
           <Form.Field>
             <Field component={renderInput} type='text' required label='暱稱（可中文、英文、數字）' name='nickname' />
-          </Form.Field>
-          <Form.Field>
-            <Field component={renderInput} type='date' label='生日' name='birthday' />
           </Form.Field>
           <Button type='submit' fluid primary loading={isLoading}>送出</Button>
         </Form>

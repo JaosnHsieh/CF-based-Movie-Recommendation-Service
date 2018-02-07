@@ -37,7 +37,6 @@ const standardLayoutHoc = (Page, title) => {
           </Head>
           <style>{`
               #root {
-                height: 100vh;
                 margin-top: 20px;
               }
               #mainMenu {

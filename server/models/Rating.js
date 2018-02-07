@@ -4,11 +4,17 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
+            references: {
+                model: 'Member',
+            }
         },
         MovieId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
+            references: {
+                model: 'Movie',
+            }
         },
         rating: {
             type: DataTypes.FLOAT,
@@ -17,13 +23,15 @@ module.exports = (sequelize, DataTypes) => {
         },
     }, {
         paranoid: false,
-        comment: '排名資料表',
-        indexes: [{
-            name: 'UserRatingIsUnique',
-            unique: true,
-            method: 'BTREE',
-            fields: ["MovieId", "MemberId"],
-        }]
+        comment: '排名資料表'
     });
+
+    Rating.associate = models => {
+        models.Rating.belongsTo(models.Member);
+        models.Rating.belongsTo(models.Movie);
+        models.Member.belongsToMany(models.Movie, {through: models.Rating, foreignKey: "MemberId" })
+        models.Movie.belongsToMany(models.Member, {through: models.Rating, foreignKey: "MovieId" })
+    }
+
     return Rating;
 };

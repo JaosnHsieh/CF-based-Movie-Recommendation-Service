@@ -32,14 +32,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             comment: '暱稱',
         }
-    }, {
-        comment: '會員資料表',
-        classMethods: {
-            associate: (models) => {
-                Member.belongsToMany(models.Movie, { through: 'Rating' });
-                return;
-            }
-        }
     });
     return Member;
 };
