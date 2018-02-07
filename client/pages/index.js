@@ -13,9 +13,10 @@ export class HomePage extends Component {
     try {
       const { headers, session } = req;
       const host = headers.host;
+      const cookie = headers.cookie;
       const isLogined = session && session.member;
       if (isLogined) {
-        await store.dispatch(onFetchRatingAndRecommendList(host))
+        await store.dispatch(onFetchRatingAndRecommendList(host, cookie))
       } else {
         await store.dispatch(onFetchTopList(host))
       }

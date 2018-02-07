@@ -3,9 +3,7 @@ const debug = Debug('Movie-Recommendation: api:controllers:movie:ratingList');
 module.exports = async (req, res, next) => {
 
     try {
-
-        // const { id } = req.session && req.session.member || {};
-        const id = 1;
+        const { id } = req.session.member;
 
         const data = await db.Rating.findAll({
             where: {

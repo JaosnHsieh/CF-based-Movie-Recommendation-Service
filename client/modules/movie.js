@@ -27,12 +27,17 @@ export const onFetchTopList = (host) => async dispatch => {
   }
 }
 
-export const onFetchRatingAndRecommendList = (host) => async dispatch => {
+export const onFetchRatingAndRecommendList = (host, cookie) => async dispatch => {
   try {
     dispatch({ type: actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_REQUEST });
+    const opts = {
+      headers: {
+         Cookie: cookie,
+      }
+    }
     const result = await Promise.all([
-      axios.get(`http://${host}/api/movie/rating`),
-      axios.get(`http://${host}/api/movie/recommend`),
+      axios.get(`http://${host}/api/movie/rating`, opts),
+      axios.get(`http://${host}/api/movie/recommend`, opts),
     ]);
     return dispatch({ type: actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_SUCCESS, payload: result });
   } catch (response) {

@@ -24,7 +24,7 @@ export class HomeIndex extends Component {
     })
     const ratingItems = ratingList.map((rating) => {
       return(
-        <Grid.Column key={rating.MemberId}>
+        <Grid.Column key={rating.MovieId}>
           <RatedBlock {...rating} />
         </Grid.Column>
       )

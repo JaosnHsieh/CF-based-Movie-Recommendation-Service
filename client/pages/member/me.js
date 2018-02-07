@@ -11,7 +11,12 @@ export class MePage extends Component {
   static getInitialProps = async ({ store, req }) => {
     try {
       const host = req.headers.host;
-      const user = await axios.get(`http://${host}/api/member`);
+      const opts = {
+        headers: {
+           Cookie: req.headers.cookie,
+        }
+      }
+      const user = await axios.get(`http://${host}/api/member`, opts);
       store.dispatch({ type: 'INIT_MEMBER_DATA', payload: user.data })
     } catch (e) {
       console.log(e, '!!');
