@@ -5,10 +5,12 @@ import { reducer as toastrReducer } from 'react-redux-toastr'
 import { reducer as formReducer } from 'redux-form'
 import { authReducer } from './auth'
 import { movieReducer } from './movie'
+import { sourceRequestReducer } from './sourceRequest'
 
 export const initStore = (initialState = {}) => {
   // mirror of state from original app
   const reducers = combineReducers({
+    source: sourceRequestReducer,
     auth: authReducer,
     form: formReducer,
     movie: movieReducer,

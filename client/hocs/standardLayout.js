@@ -12,11 +12,20 @@ const standardLayoutHoc = (Page, title) => {
       const pageProps =
         (await Page.getInitialProps) && (await Page.getInitialProps(ctx))
       const { headers, session } = ctx.req;
+      const isLogined = session && session.member;
+      const sourceRequest = {
+        host: headers.host,
+        pathname: ctx.pathname,
+      }
+      ctx.store.dispatch({ type: 'INIT_SOURCE_REQUEST', payload: sourceRequest })
+
+      if (isLogined) {
+        ctx.store.dispatch({ type: 'INIT_SESSION_MEMBER', payload: session.member })
+      }
+
       return {
         ...pageProps,
-        host: headers.host,
-        currentPath: ctx.pathname,
-        isLogined: session && session.member
+        isLogined
       }
     }
     state = { visible: false }

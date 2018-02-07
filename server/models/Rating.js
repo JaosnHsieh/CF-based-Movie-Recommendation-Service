@@ -3,18 +3,12 @@ module.exports = (sequelize, DataTypes) => {
         MemberId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primaryKey: true,
-            references: {
-                model: 'Member',
-            }
+            primaryKey: true
         },
         MovieId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primaryKey: true,
-            references: {
-                model: 'Movie',
-            }
+            primaryKey: true
         },
         rating: {
             type: DataTypes.FLOAT,
@@ -27,10 +21,11 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Rating.associate = models => {
-        models.Rating.belongsTo(models.Member);
+        // have constraints problem
+        // models.Rating.belongsTo(models.Member);
         models.Rating.belongsTo(models.Movie);
-        models.Member.belongsToMany(models.Movie, {through: models.Rating, foreignKey: "MemberId" })
-        models.Movie.belongsToMany(models.Member, {through: models.Rating, foreignKey: "MovieId" })
+        models.Member.belongsToMany(models.Movie, {through: models.Rating, constraints: false});
+        models.Movie.belongsToMany(models.Member, {through: models.Rating, constraints: false});
     }
 
     return Rating;

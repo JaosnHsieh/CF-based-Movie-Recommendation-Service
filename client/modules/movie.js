@@ -1,44 +1,75 @@
 import axios from 'axios';
 
 const initialState = {
-  list: [],
+  ratingList: [],
+  recommendList: [],
   error: null,
   isLoading: false,
   pageData: {}
 }
 
 const actionTypes = {
-  FETCH_TOP_MOVIE_LIST_REQUEST: 'FETCH_TOP_MOVIE_LIST_REQUEST',
-  FETCH_TOP_MOVIE_LIST_SUCCESS: 'FETCH_TOP_MOVIE_LIST_SUCCESS',
-  FETCH_TOP_MOVIE_LIST_FAIL: 'FETCH_TOP_MOVIE_LIST_FAIL',
+  FETCH_LIST_FAIL: 'FETCH_LIST_FAIL',
+  FETCH_TOP_LIST_REQUEST: 'FETCH_TOP_LIST_REQUEST',
+  FETCH_TOP_LIST_SUCCESS: 'FETCH_TOP_LIST_SUCCESS',
+  FETCH_RATING_AND_RECOMMEND_LIST_REQUEST: 'FETCH_RATING_AND_RECOMMEND_LIST_REQUEST',
+  FETCH_RATING_AND_RECOMMEND_LIST_SUCCESS: 'FETCH_RATING_AND_RECOMMEND_LIST_SUCCESS',
 }
 
-export const onFetchTopMovieList = (host) => async dispatch => {
+export const onFetchTopList = (host) => async dispatch => {
   try {
-    dispatch({ type: actionTypes.FETCH_TOP_MOVIE_LIST_REQUEST });
-    const res = await axios.get(`http://${host}/api/movie`);
-    return dispatch({ type: actionTypes.FETCH_TOP_MOVIE_LIST_SUCCESS, payload: res.data });
-  } catch (a) {
-    dispatch({ type: actionTypes.FETCH_TOP_MOVIE_LIST_FAIL });
+    dispatch({ type: actionTypes.FETCH_TOP_LIST_REQUEST });
+    const res = await axios.get(`http://${host}/api/movie/top`);
+    return dispatch({ type: actionTypes.FETCH_TOP_LIST_SUCCESS, payload: res.data });
+  } catch (response) {
+    dispatch({ type: actionTypes.FETCH_LIST_FAIL });
+    throw(response.data)
+  }
+}
+
+export const onFetchRatingAndRecommendList = (host) => async dispatch => {
+  try {
+    dispatch({ type: actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_REQUEST });
+    const result = await Promise.all([
+      axios.get(`http://${host}/api/movie/rating`),
+      axios.get(`http://${host}/api/movie/recommend`),
+    ]);
+    return dispatch({ type: actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_SUCCESS, payload: result });
+  } catch (response) {
+    dispatch({ type: actionTypes.FETCH_LIST_FAIL });
     throw(response.data)
   }
 }
 
 export const movieReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_TOP_MOVIE_LIST_REQUEST:
+    case actionTypes.FETCH_TOP_LIST_REQUEST:
       return {
         ...state,
         isLoading: true,
       }
-    case actionTypes.FETCH_TOP_MOVIE_LIST_SUCCESS:
+    case actionTypes.FETCH_TOP_LIST_SUCCESS:
       return {
         ...state,
-        list: action.payload.data,
+        recommendList: action.payload.data,
         pageData: action.payload.pageData,
         isLoading: false,
       }
-    case actionTypes.FETCH_TOP_MOVIE_LIST_FAIL:
+    case actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_SUCCESS:
+      const ratingData = action.payload[0].data;
+      const recommendData = action.payload[1].data;
+      return {
+        ...state,
+        ratingList: ratingData.data,
+        recommendList: recommendData.data,
+        isLoading: false,
+      }
+    case actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case actionTypes.FETCH_LIST_FAIL:
       return {
         ...state,
         isLoading: false,

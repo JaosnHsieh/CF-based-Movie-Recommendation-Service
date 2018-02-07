@@ -4,17 +4,17 @@ module.exports = async (req, res, next) => {
 
     try {
 
-        // const { id } = req.session.member;
+        // const { id } = req.session && req.session.member || {};
         const id = 1;
 
-        const { data } = await db.Rating.findAll({
+        const data = await db.Rating.findAll({
             where: {
                 MemberId: id
             },
-            attributes: ["rating"],
+            attributes: ["MovieId", "rating"],
             include: [{
                 model: db.Movie,
-                attributes: ["id"],
+                attributes: ["title"],
                 required: true
             }],
             limit: 12

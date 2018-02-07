@@ -2,7 +2,6 @@ require('babel-core/register')
 require('babel-polyfill')
 const express = require('express')
 const next = require('next')
-const { parse } = require('url')
 const isDev = process.env.NODE_ENV === 'develop'
 const app = next({ dir: './client', dev: isDev })
 const handle = app.getRequestHandler()
