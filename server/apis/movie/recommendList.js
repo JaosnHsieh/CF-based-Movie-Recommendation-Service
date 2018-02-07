@@ -1,6 +1,8 @@
 import Debug from 'debug';
 import { sequelize } from '../../models';
 import redis from '../../redis';
+import getTopList from '../../libs/getTopList';
+
 const debug = Debug('Movie-Recommendation: api:controllers:movie:recommendList');
 module.exports = async (req, res, next) => {
 
@@ -16,33 +18,35 @@ module.exports = async (req, res, next) => {
 
         const ratedIds = ratedList.map(movie => movie.MovieId);
 
+
         debug('ratedIds = %j', ratedIds);
 
-        // to do this
-        // const recommendALLIds = [];
-        const recommendALLIds = [1, 2, 3, 4, 5, 6];
+        // temp to do this
+        const topListItems = await getTopList();
 
-        const recommendIds = recommendALLIds.filter((movieId)=>{
-            return ratedIds.indexOf(movieId) === -1;
+        // const recommendALLIds = topListItems.map(movie => movie.id);
+
+        const data = topListItems.filter((movie)=>{
+            return ratedIds.indexOf(movie.id) === -1;
         });
 
-        const finalIds = recommendIds.slice(0, 20);
+        // const finalIds = recommendIds.slice(0, 20);
 
-        debug('finalIds = %j', finalIds);
+        // debug('finalIds = %j', finalIds);
 
-        const data = await sequelize.query(`
-            SELECT id,
-                title,
-                genres,
-                avg(rating) AS rating,
-                count(id) AS people
-            FROM Movie
-            INNER JOIN Rating ON Movie.id = Rating.MovieId
-            WHERE id IN (:ids) GROUP BY Movie.id
-        `, {
-            replacements: { ids: finalIds },
-            type: sequelize.QueryTypes.SELECT
-        });
+        // const data = await sequelize.query(`
+        //     SELECT id,
+        //         title,
+        //         genres,
+        //         avg(rating) AS rating,
+        //         count(id) AS people
+        //     FROM Movie
+        //     INNER JOIN Rating ON Movie.id = Rating.MovieId
+        //     WHERE id IN (:ids) GROUP BY Movie.id
+        // `, {
+        //     replacements: { ids: finalIds },
+        //     type: sequelize.QueryTypes.SELECT
+        // });
 
         return res.json({ data });
 
