@@ -9,6 +9,13 @@ Create your local develop.json and update it.
 cp config/default.json config/develop.json
 ```
 
+You can import demo.sql and use account to login.
+
+```
+admin@demo.gmail.com
+pwd: admin
+```
+
 ## How to run the environment
 
 ### for development
@@ -24,3 +31,6 @@ npm install
 npm run build
 npm run prod
 ```
+
+
+
