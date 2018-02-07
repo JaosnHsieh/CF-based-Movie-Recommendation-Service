@@ -14,6 +14,7 @@ const actionTypes = {
   FETCH_TOP_LIST_SUCCESS: 'FETCH_TOP_LIST_SUCCESS',
   FETCH_RATING_AND_RECOMMEND_LIST_REQUEST: 'FETCH_RATING_AND_RECOMMEND_LIST_REQUEST',
   FETCH_RATING_AND_RECOMMEND_LIST_SUCCESS: 'FETCH_RATING_AND_RECOMMEND_LIST_SUCCESS',
+  RELOAD_DATA: 'RELOAD_DATA'
 }
 
 export const onFetchTopList = (host) => async dispatch => {
@@ -52,6 +53,11 @@ export const onRating = (movieId, rating) => async dispatch => {
       MovieId: movieId,
       rating
     });
+    const res = await axios.get(`/api/movie/recommend`);
+    dispatch({
+      type: actionTypes.RELOAD_DATA,
+      payload: { movieId, rating, recommendData: res.data }
+    });
   } catch (response) {
     throw(response.data)
   }
@@ -88,6 +94,22 @@ export const movieReducer = (state = initialState, action) => {
     case actionTypes.FETCH_LIST_FAIL:
       return {
         ...state,
+        isLoading: false,
+      }
+    case actionTypes.RELOAD_DATA:
+      const movieId = action.payload.movieId;
+      const removedMovie = state.recommendList.find(movie => movie.id === movieId)
+      return {
+        ...state,
+        ratingList: [
+          {
+            MovieId: movieId,
+            rating: action.payload.rating,
+            Movie: removedMovie,
+          },
+          ...state.ratingList
+        ],
+        recommendList: action.payload.recommendData.data,
         isLoading: false,
       }
     default: return state
