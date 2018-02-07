@@ -7,11 +7,11 @@ const app = next({ dir: './client', dev: isDev })
 const handle = app.getRequestHandler()
 const port = process.env.PORT || 3000
 const server = express()
-const db = require('./server/models/')
+const models = require('./server/models/')
 const apis = require('./server/apis')
 const errorHandlers = require('./server/errorHandlers')
 const middlewares = require('./server/middlewares')
-global.db = db;
+global.db = models.db;
 
 app.prepare().then(() => {
 

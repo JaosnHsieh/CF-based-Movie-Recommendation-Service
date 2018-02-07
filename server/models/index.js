@@ -4,8 +4,8 @@ import Sequelize from 'sequelize';
 import config from 'config';
 
 const env = process.env.NODE_ENV;
-let { database, username, password, options, resetDB } = config.get('db');
-let sequelize = new Sequelize(database, username, password, options);
+const { database, username, password, options, resetDB } = config.get('db');
+const sequelize = new Sequelize(database, username, password, options);
 let db = {};
 
 fs.readdirSync(__dirname)
@@ -38,4 +38,7 @@ Object.keys(db).forEach((modelName) => {
 })();
 
 
-module.exports = db;
+module.exports = {
+    db,
+    sequelize
+}
