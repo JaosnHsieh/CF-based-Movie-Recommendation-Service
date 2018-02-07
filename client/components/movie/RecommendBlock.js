@@ -4,7 +4,7 @@ const RecommendBlock = ({id, people, rating = 0, genres, title, disabled = true,
   <Segment color='orange'>
     <h3>{ title }</h3>
     <Rating icon='star' defaultRating={0} onRate={onRate} maxRating={5} disabled={false} movieid={id} />
-    / Avg { rating.toFixed(2) } ({ people } People)
+    / Avg { Number(rating).toFixed(2) } ({ people } People)
   </Segment>
 )
 export default RecommendBlock
