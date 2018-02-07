@@ -46,6 +46,17 @@ export const onFetchRatingAndRecommendList = (host, cookie) => async dispatch =>
   }
 }
 
+export const onRating = (movieId, rating) => async dispatch => {
+  try {
+    await axios.post(`/api/movie/rating`, {
+      MovieId: movieId,
+      rating
+    });
+  } catch (response) {
+    throw(response.data)
+  }
+}
+
 export const movieReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_TOP_LIST_REQUEST:

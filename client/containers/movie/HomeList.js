@@ -1,16 +1,38 @@
 import React, { Component } from 'react'
-// import { toastr } from 'react-redux-toastr'
+import { toastr } from 'react-redux-toastr'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Button, Grid, Header, Icon } from 'semantic-ui-react'
 import RecommendBlock from '../../components/movie/RecommendBlock'
 import RatedBlock from '../../components/movie/RatedBlock'
-import Pagination from '../../components/movie/Pagination'
+import { onRating }  from '../../modules/movie'
 
 export class HomeIndex extends Component {
 
   constructor (props, context) {
     super(props, context)
+    this.handleRating = this.handleRating.bind(this)
+  }
+
+  async handleRating (e, data) {
+    try {
+      if (!this.props.isLogined) {
+        toastr.info('想要評分請先登入哦！');
+        return
+      }
+      toastr.confirm('確定要送出評分嗎？', {
+        onOk: async () => {
+          try {
+            await this.props.onRating(data.movieid, data.rating);
+            toastr.success('評分成功！');
+          } catch (e) {
+            toastr.error('評分失敗！');
+          }
+        }
+      });
+    } catch (e) {
+      toastr.error(e.message);
+    }
   }
 
   render () {
@@ -18,7 +40,7 @@ export class HomeIndex extends Component {
     const recommendItems = recommendList.map((movie) => {
       return(
         <Grid.Column key={movie.id}>
-          <RecommendBlock {...movie} />
+          <RecommendBlock {...movie} onRate={this.handleRating} />
         </Grid.Column>
       )
     })
@@ -68,8 +90,8 @@ const mapStateToProps = state => ({
   isLogined: state.source.isLogined,
 })
 
-// const mapDispatchToProps = (dispatch) => {
-//   return bindActionCreators(, dispatch)
-// }
-// export default connect(mapStateToProps, mapDispatchToProps)(HomeIndex)
-export default connect(mapStateToProps)(HomeIndex)
+const mapDispatchToProps = bindActionCreators.bind(null, {
+  onRating,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeIndex)

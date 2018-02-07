@@ -10,13 +10,18 @@ module.exports = function(app) {
         if (errorFormat) {
             options = errorFormat;
         }
-
-        // 其他底層錯誤處理
-        if(!errorFormat && err && !err.errors) {
+        // 資料庫錯誤
+        else if (err.sql) {
+            options.statusCode = 400;
+            options.message = err.name;
+            options.stack = err.errors;
+        }
+        else {
             options.statusCode = 503;
             options.message = err.message;
             options.stack = err.stack.split('\n');
         }
+
 
         console.log('-------------- ERROR --------------');
         console.log(options);
