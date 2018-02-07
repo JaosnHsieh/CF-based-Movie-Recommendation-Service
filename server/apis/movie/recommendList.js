@@ -1,6 +1,8 @@
 import Debug from 'debug';
 import { sequelize } from '../../models';
 import redis from '../../redis';
+import { r, getPeopleById, getRecommendedIds } from '../../libs/recommendations';
+
 const debug = Debug('Movie-Recommendation: api:controllers:movie:recommendList');
 module.exports = async (req, res, next) => {
 
@@ -18,9 +20,21 @@ module.exports = async (req, res, next) => {
 
         debug('ratedIds = %j', ratedIds);
 
+
+        const person = await getPeopleById(id);
+
+        if (!person) {
+            return res.json({data: []})
+        }
+        const recommendALLIds = await getRecommendedIds(person);
+
+        debug('recommendALLIds = %j', recommendALLIds);
+
         // to do this
-        // const recommendALLIds = [];
-        const recommendALLIds = [1, 2, 3, 4, 5, 6];
+        // const recommendALLIds = Object.keys(recommendItems);
+
+
+        // const recommendALLIds = [1, 2, 3, 4, 5, 6];
 
         const recommendIds = recommendALLIds.filter((movieId)=>{
             return ratedIds.indexOf(movieId) === -1;
@@ -29,6 +43,10 @@ module.exports = async (req, res, next) => {
         const finalIds = recommendIds.slice(0, 20);
 
         debug('finalIds = %j', finalIds);
+
+        if (finalIds.length === 0) {
+            return res.json({data: []})
+        }
 
         const data = await sequelize.query(`
             SELECT id,

@@ -10,6 +10,9 @@ const redisConfig = config.get('redis');
 const client = redis.createClient(redisConfig);
 
 module.exports = {
+    getClient: () => {
+        return client;
+    },
     getValue: async (key) => {
         try {
             let value = await client.getAsync(key);
