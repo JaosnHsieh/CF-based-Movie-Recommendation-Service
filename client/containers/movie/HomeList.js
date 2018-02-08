@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 import { toastr } from 'react-redux-toastr'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Grid, Header, Icon } from 'semantic-ui-react'
+import { Button, Grid, Header, Icon } from 'semantic-ui-react'
 import RecommendBlock from '../../components/movie/RecommendBlock'
 import RatedBlock from '../../components/movie/RatedBlock'
-import { onRating } from '../../modules/movie'
+import { onRating, onFetchRecommendList } from '../../modules/movie'
 
 export class HomeIndex extends Component {
   constructor (props, context) {
     super(props, context)
     this.handleRating = this.handleRating.bind(this)
+    this.handleMore = this.handleMore.bind(this)
   }
 
   async handleRating (e, data) {
@@ -32,6 +33,14 @@ export class HomeIndex extends Component {
       })
     } catch (e) {
       toastr.error(e.message)
+    }
+  }
+
+  async handleMore () {
+    try {
+      await this.props.onFetchRecommendList()
+    } catch (e) {
+
     }
   }
 
@@ -79,6 +88,7 @@ export class HomeIndex extends Component {
           <Grid padded columns={3} doubling>
             { recommendItems }
           </Grid>
+          <Button onClick={this.handleMore}>More</Button>
         </div>}
       </div>
     )
@@ -91,13 +101,15 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = bindActionCreators.bind(null, {
-  onRating
+  onRating,
+  onFetchRecommendList
 })
 
 HomeIndex.propTypes = {
   movie: PropTypes.object,
   isLogined: PropTypes.bool,
-  onRating: PropTypes.func
+  onRating: PropTypes.func,
+  onFetchRecommendList: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeIndex)

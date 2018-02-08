@@ -5,10 +5,12 @@ const initialState = {
   recommendList: [],
   error: null,
   isLoading: false,
-  pageData: {}
+  // pageData: {}
+  page: 1
 }
 
 const actionTypes = {
+  FETCH_RECOMMEND_LIST_SUCCESS: 'FETCH_RECOMMEND_LIST_SUCCESS',
   FETCH_LIST_FAIL: 'FETCH_LIST_FAIL',
   FETCH_TOP_LIST_REQUEST: 'FETCH_TOP_LIST_REQUEST',
   FETCH_TOP_LIST_SUCCESS: 'FETCH_TOP_LIST_SUCCESS',
@@ -47,16 +49,27 @@ export const onFetchRatingAndRecommendList = (host, cookie) => async dispatch =>
   }
 }
 
-export const onRating = (movieId, rating) => async dispatch => {
+export const onRating = (movieId, rating) => async (dispatch) => {
   try {
     await axios.post(`/api/movie/rating`, {
       MovieId: movieId,
       rating
     })
-    const res = await axios.get(`/api/movie/recommend`)
     dispatch({
       type: actionTypes.RELOAD_DATA,
-      payload: { movieId, rating, recommendData: res.data }
+      payload: { movieId, rating }
+    })
+  } catch (response) {
+    throw (response.data)
+  }
+}
+
+export const onFetchRecommendList = () => async (dispatch, getStore) => {
+  try {
+    const res = await axios.get(`/api/movie/recommend?page=${getStore().movie.page + 1}`)
+    dispatch({
+      type: actionTypes.FETCH_RECOMMEND_LIST_SUCCESS,
+      payload: { recommendData: res.data }
     })
   } catch (response) {
     throw (response.data)
@@ -83,6 +96,7 @@ export const movieReducer = (state = initialState, action) => {
       return {
         ...state,
         ratingList: ratingData.data,
+        page: 1,
         recommendList: recommendData.data,
         isLoading: false
       }
@@ -90,6 +104,13 @@ export const movieReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true
+      }
+    case actionTypes.FETCH_RECOMMEND_LIST_SUCCESS:
+      return {
+        ...state,
+        isLoading: true,
+        page: action.payload.recommendData.page,
+        recommendList: [...state.recommendList, ...action.payload.recommendData.data]
       }
     case actionTypes.FETCH_LIST_FAIL:
       return {
@@ -109,7 +130,8 @@ export const movieReducer = (state = initialState, action) => {
           },
           ...state.ratingList
         ],
-        recommendList: action.payload.recommendData.data,
+        page: 1,
+        recommendList: state.recommendList.filter((movie) => movie.id !== movieId),
         isLoading: false
       }
     default: return state

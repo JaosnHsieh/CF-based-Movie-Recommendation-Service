@@ -7,7 +7,10 @@ const debug = Debug('Movie-Recommendation: api:controllers:movie:recommendList')
 module.exports = async (req, res, next) => {
 
     try {
+        const { page = 1 } = req.query;
         const { id } = req.session.member;
+        const limit = 10
+        const skip = (page - 1) * limit;
 
         const ratedList = await db.Rating.findAll({
             where: {
@@ -21,36 +24,18 @@ module.exports = async (req, res, next) => {
 
         debug('ratedIds = %j', ratedIds);
 
-        // temp to do this
-        const topListItems = await getTopList();
+        const topListItems = await getTopList(skip, limit);
 
-        // const recommendALLIds = topListItems.map(movie => movie.id);
+        debug('topListItems = %j', topListItems);
 
         const data = topListItems.filter((movie)=>{
             return ratedIds.indexOf(movie.id) === -1;
         });
 
-        // const finalIds = recommendIds.slice(0, 20);
-
-        // debug('finalIds = %j', finalIds);
-
-        // const data = await sequelize.query(`
-        //     SELECT id,
-        //         title,
-        //         genres,
-        //         avg(rating) AS rating,
-        //         count(id) AS people
-        //     FROM Movie
-        //     INNER JOIN Rating ON Movie.id = Rating.MovieId
-        //     WHERE id IN (:ids) GROUP BY Movie.id
-        // `, {
-        //     replacements: { ids: finalIds },
-        //     type: sequelize.QueryTypes.SELECT
-        // });
-
-        return res.json({ data });
+        return res.json({ data, page });
 
     } catch(err) {
+        console.log(err, '!!');
         return next(err);
     }
 };

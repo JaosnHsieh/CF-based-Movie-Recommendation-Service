@@ -1,15 +1,9 @@
 import { sequelize } from '../models';
 import redis from '../redis';
 
-module.exports = async () => {
+module.exports = async (skip = 0, limit = 18) => {
     try {
-        let data = await redis.getValue('top-list');
-
-        if (data) {
-            return Promise.resolve(data);
-        }
-
-        data = await sequelize.query(`
+        const data = await sequelize.query(`
             SELECT *
             FROM
               (SELECT id,
@@ -22,11 +16,14 @@ module.exports = async () => {
                GROUP BY Movie.id) AS result
             WHERE people > 20
             ORDER BY result.rating DESC
-            LIMIT 18
-        `, { type: sequelize.QueryTypes.SELECT});
-
-        await redis.setValue('top-list', data, 300);
-
+            LIMIT :skip, :limit
+        `, {
+              replacements: {
+                skip,
+                limit,
+              },
+              type: sequelize.QueryTypes.SELECT
+        });
 
         return Promise.resolve(data);
 

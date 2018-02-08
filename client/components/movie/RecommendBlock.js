@@ -10,7 +10,7 @@ const RecommendBlock = ({id, people, rating = 0, genres, title, disabled = true,
 )
 
 RecommendBlock.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.number,
   people: PropTypes.number,
   rating: PropTypes.number,
   genres: PropTypes.string,
