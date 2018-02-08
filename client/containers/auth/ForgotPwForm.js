@@ -115,4 +115,14 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({onForgotPw, onResetPw}, dispatch)
 }
+
+ForgotPwComponent.propTypes = {
+  auth: PropTypes.object,
+  // destroyOnUnmount: PropTypes.bool,
+  forgotPw: PropTypes.object,
+  onForgotPw: PropTypes.func,
+  onResetPw: PropTypes.func,
+  handleSubmit: PropTypes.func
+}
+
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPwForm)

@@ -74,4 +74,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({onSignup}, dispatch)
 }
+
+MeComponent.propTypes = {
+  auth: PropTypes.object,
+  // me: PropTypes.object,
+  // initialValues: PropTypes.object,
+  onSignup: PropTypes.func,
+  handleSubmit: PropTypes.func
+}
+
 export default connect(mapStateToProps, mapDispatchToProps)(MeForm)

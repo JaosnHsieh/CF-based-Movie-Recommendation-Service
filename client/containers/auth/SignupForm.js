@@ -132,4 +132,11 @@ SignupForm.propTypes = {
   signup: PropTypes.object
 }
 
+SignupComponent.propTypes = {
+  auth: PropTypes.object,
+  signup: PropTypes.object,
+  getVerifyCode: PropTypes.func,
+  onSignup: PropTypes.func,
+  handleSubmit: PropTypes.func
+}
 export default connect(mapStateToProps, mapDispatchToProps)(SignupForm)

@@ -13,7 +13,6 @@ export class UpdatePwComponent extends Component {
     super(props, context)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
   }
-
   async handleFormSubmit (formProps) {
     try {
       await this.props.onUpdatePw(formProps)
@@ -77,4 +76,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({onUpdatePw}, dispatch)
 }
+
+UpdatePwComponent.propTypes = {
+  auth: PropTypes.object,
+  // updatePw: PropTypes.object,
+  onUpdatePw: PropTypes.func,
+  handleSubmit: PropTypes.func
+}
+
 export default connect(mapStateToProps, mapDispatchToProps)(UpdatePwForm)
