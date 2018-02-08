@@ -33,7 +33,6 @@ pwd: admin
 npm install
 ```
 
-
 ## How to run the environment
 
 ### DEVELOPMENT
@@ -47,6 +46,11 @@ npm start
 npm run build
 npm run prod
 ```
+
+## Future
+- [ ] Use CF algorithms.
+- [ ] Complete all member flow, ex: forgotPw, resetPw, updateProfile
+- [ ] Add pagination for movie list.
 
 ## Built With
 
