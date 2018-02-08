@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Rating, Segment } from 'semantic-ui-react'
 const RecommendBlock = ({id, people, rating = 0, genres, title, disabled = true, onRate}) => (
   <Segment color='orange'>
@@ -7,4 +8,15 @@ const RecommendBlock = ({id, people, rating = 0, genres, title, disabled = true,
     / Avg { Number(rating).toFixed(2) } ({ people } People)
   </Segment>
 )
+
+RecommendBlock.propTypes = {
+  id: PropTypes.string,
+  people: PropTypes.number,
+  rating: PropTypes.number,
+  genres: PropTypes.string,
+  title: PropTypes.string,
+  disabled: PropTypes.bool,
+  onRate: PropTypes.func
+}
+
 export default RecommendBlock

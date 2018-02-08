@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { toastr } from 'react-redux-toastr'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { Button, Form, Header, Label, Modal, Segment } from 'semantic-ui-react'
+import { Button, Form, Header, Segment } from 'semantic-ui-react'
 import renderInput from '../../components/form/renderInput'
-import { getVerifyCode, onSignup }  from '../../modules/auth'
+import { getVerifyCode, onSignup } from '../../modules/auth'
 
 export class SignupComponent extends Component {
   constructor (props, context) {
@@ -19,11 +20,11 @@ export class SignupComponent extends Component {
       await this.props.onSignup({
         provider: this.props.auth.type,
         ...formProps
-      });
-      toastr.success('註冊完成！');
-      window.location = `/auth/login${window.location.search}`;
+      })
+      toastr.success('註冊完成！')
+      window.location = `/auth/login${window.location.search}`
     } catch (e) {
-      toastr.error(e.message);
+      toastr.error(e.message)
     }
   }
 
@@ -32,20 +33,20 @@ export class SignupComponent extends Component {
       const response = await this.props.getVerifyCode({
         provider: this.props.auth.type,
         ...this.props.signup.values
-      });
+      })
     } catch (e) {
-      toastr.error(e.message);
+      toastr.error(e.message)
     }
   }
 
   render () {
-    const { type, verifyCodeTimer, isLoading } = this.props.auth;
-    const showVerifyCodeTimer = verifyCodeTimer > 0;
+    const { type, verifyCodeTimer, isLoading } = this.props.auth
+    const showVerifyCodeTimer = verifyCodeTimer > 0
 
-    const { values: formValues } = this.props.signup || {};
-    let activeVerifyButton = false;
+    const { values: formValues } = this.props.signup || {}
+    let activeVerifyButton = false
     if (formValues) {
-      activeVerifyButton = formValues.email;
+      activeVerifyButton = formValues.email
     }
 
     return (
@@ -71,10 +72,10 @@ export class SignupComponent extends Component {
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
-                <Field component={renderInput} type='password' required label='密碼' name='password' type='password'/>
+                <Field component={renderInput} type='password' required label='密碼' name='password' />
               </Form.Field>
               <Form.Field>
-                <Field component={renderInput} type='password' required label='確認密碼' name='confirmPassword' type='password'/>
+                <Field component={renderInput} type='password' required label='確認密碼' name='confirmPassword' />
               </Form.Field>
             </Form.Group>
             <Form.Field>
@@ -104,7 +105,7 @@ const validate = (formProps) => {
     }
   })
 
-  if (formProps.password != formProps.confirmPassword) {
+  if (formProps.password !== formProps.confirmPassword) {
     errors.confirmPassword = '需與密碼相同'
   }
 
@@ -114,7 +115,7 @@ const validate = (formProps) => {
 const SignupForm = reduxForm({
   form: 'signup',
   destroyOnUnmount: false,
-  validate,
+  validate
 })(SignupComponent)
 
 const mapStateToProps = state => ({
@@ -125,4 +126,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({getVerifyCode, onSignup}, dispatch)
 }
+
+SignupForm.propTypes = {
+  auth: PropTypes.object,
+  signup: PropTypes.object
+}
+
 export default connect(mapStateToProps, mapDispatchToProps)(SignupForm)

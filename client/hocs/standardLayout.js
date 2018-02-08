@@ -1,9 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ReduxToastr from 'react-redux-toastr'
-import Router from 'next/router'
 import { connect } from 'react-redux'
 import Head from 'next/head'
-import { Sidebar, Icon, Container, Menu } from 'semantic-ui-react';
+import { Sidebar, Icon, Container, Menu } from 'semantic-ui-react'
 
 const standardLayoutHoc = (Page, title) => {
   class standardLayout extends React.Component {
@@ -11,11 +11,11 @@ const standardLayoutHoc = (Page, title) => {
       // send props to the parent > child container
       const pageProps =
         (await Page.getInitialProps) && (await Page.getInitialProps(ctx))
-      const { headers, session } = ctx.req;
-      const isLogined = session && session.member;
+      const { headers, session } = ctx.req
+      const isLogined = session && session.member
       const sourceRequest = {
         host: headers.host,
-        pathname: ctx.pathname,
+        pathname: ctx.pathname
       }
       ctx.store.dispatch({ type: 'INIT_SOURCE_REQUEST', payload: sourceRequest })
 
@@ -28,17 +28,25 @@ const standardLayoutHoc = (Page, title) => {
         isLogined
       }
     }
-    state = { visible: false }
 
-    toggleVisibility = () => this.setState({ visible: !this.state.visible })
+    constructor (props) {
+      super(props)
+      this.state = { visible: false }
+    }
+
+    toggleVisibility () {
+      this.setState({
+        visible: !this.state.visible
+      })
+    }
 
     render () {
       const { visible } = this.state
       const menus = [
-        {href: '/member/me', icon: 'user', name: '會員資料'},
+        {href: '/member/me', icon: 'user', name: '會員資料'}
         // {href: '/member/updatepw', icon: 'privacy', name: '修改密碼'},
-      ];
-      const isLogined = this.props.isLogined;
+      ]
+      const isLogined = this.props.isLogined
       return (
         <div>
           <Head>
@@ -97,13 +105,17 @@ const standardLayoutHoc = (Page, title) => {
             timeOut={3000}
             newestOnTop={false}
             preventDuplicates
-            position="top-center"
-            transitionIn="fadeIn"
-            transitionOut="fadeOut"
-            progressBar/>
+            position='top-center'
+            transitionIn='fadeIn'
+            transitionOut='fadeOut'
+            progressBar />
         </div>
       )
     }
+  }
+
+  standardLayout.propTypes = {
+    isLogined: PropTypes.bool
   }
 
   return connect()(standardLayout)

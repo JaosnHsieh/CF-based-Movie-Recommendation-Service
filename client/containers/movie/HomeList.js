@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import { toastr } from 'react-redux-toastr'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Button, Grid, Header, Icon } from 'semantic-ui-react'
+import { Grid, Header, Icon } from 'semantic-ui-react'
 import RecommendBlock from '../../components/movie/RecommendBlock'
 import RatedBlock from '../../components/movie/RatedBlock'
-import { onRating }  from '../../modules/movie'
+import { onRating } from '../../modules/movie'
 
 export class HomeIndex extends Component {
-
   constructor (props, context) {
     super(props, context)
     this.handleRating = this.handleRating.bind(this)
@@ -17,35 +16,35 @@ export class HomeIndex extends Component {
   async handleRating (e, data) {
     try {
       if (!this.props.isLogined) {
-        toastr.info('想要評分請先登入哦！');
+        toastr.info('想要評分請先登入哦！')
         return
       }
       toastr.confirm('確定要送出評分嗎？', {
         onOk: async () => {
           try {
-            await this.props.onRating(data.movieid, data.rating);
-            toastr.success('評分成功！');
+            await this.props.onRating(data.movieid, data.rating)
+            toastr.success('評分成功！')
           } catch (e) {
-            toastr.error('評分失敗！');
+            toastr.error('評分失敗！')
           }
         }
-      });
+      })
     } catch (e) {
-      toastr.error(e.message);
+      toastr.error(e.message)
     }
   }
 
   render () {
-    const { ratingList, recommendList } = this.props.movie;
+    const { ratingList, recommendList } = this.props.movie
     const recommendItems = recommendList.map((movie) => {
-      return(
+      return (
         <Grid.Column key={movie.id}>
           <RecommendBlock {...movie} onRate={this.handleRating} />
         </Grid.Column>
       )
     })
     const ratingItems = ratingList.map((rating) => {
-      return(
+      return (
         <Grid.Column key={rating.MovieId}>
           <RatedBlock {...rating} />
         </Grid.Column>
@@ -87,11 +86,11 @@ export class HomeIndex extends Component {
 
 const mapStateToProps = state => ({
   movie: state.movie,
-  isLogined: state.source.isLogined,
+  isLogined: state.source.isLogined
 })
 
 const mapDispatchToProps = bindActionCreators.bind(null, {
-  onRating,
-});
+  onRating
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeIndex)

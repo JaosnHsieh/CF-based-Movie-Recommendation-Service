@@ -3,9 +3,9 @@ import { toastr } from 'react-redux-toastr'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { Button, Form, Header, Segment } from 'semantic-ui-react'
+import { Button, Form, Header } from 'semantic-ui-react'
 import renderInput from '../../components/form/renderInput'
-import { onUpdatePw }  from '../../modules/auth'
+import { onUpdatePw } from '../../modules/auth'
 
 export class UpdatePwComponent extends Component {
   constructor (props, context) {
@@ -16,14 +16,14 @@ export class UpdatePwComponent extends Component {
   async handleFormSubmit (formProps) {
     try {
       await this.props.onUpdatePw(formProps)
-      toastr.success('密碼更新成功');
+      toastr.success('密碼更新成功')
     } catch (e) {
-      toastr.error(e.message);
+      toastr.error(e.message)
     }
   }
 
   render () {
-    const { isLoading } = this.props.auth;
+    const { isLoading } = this.props.auth
     return (
       <div>
         <Header textAlign='center' as='h1'>修改密碼</Header>
@@ -33,10 +33,10 @@ export class UpdatePwComponent extends Component {
           </Form.Field>
           <Form.Group widths='equal'>
             <Form.Field>
-              <Field component={renderInput} type='password' required label='新密碼' name='password' type='password'/>
+              <Field component={renderInput} type='password' required label='新密碼' name='password' />
             </Form.Field>
             <Form.Field>
-              <Field component={renderInput} type='password' required label='確認新密碼' name='confirmPassword' type='password'/>
+              <Field component={renderInput} type='password' required label='確認新密碼' name='confirmPassword' />
             </Form.Field>
           </Form.Group>
           <Button type='submit' fluid primary loading={isLoading}>送出</Button>
@@ -56,7 +56,7 @@ const validate = (formProps) => {
     }
   })
 
-  if (formProps.password != formProps.confirmPassword) {
+  if (formProps.password !== formProps.confirmPassword) {
     errors.confirmPassword = '需與密碼相同'
   }
 

@@ -3,9 +3,9 @@ import { toastr } from 'react-redux-toastr'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { Button, Form, Header, Label, Modal, Segment } from 'semantic-ui-react'
+import { Button, Form, Header, Segment } from 'semantic-ui-react'
 import renderInput from '../../components/form/renderInput'
-import { onLogin }  from '../../modules/auth'
+import { onLogin } from '../../modules/auth'
 
 export class LoginComponent extends Component {
   constructor (props, context) {
@@ -18,15 +18,15 @@ export class LoginComponent extends Component {
       await this.props.onLogin({
         provider: this.props.auth.type,
         ...formProps
-      });
+      })
       window.location = '/'
     } catch (e) {
-      toastr.error(e.message);
+      toastr.error(e.message)
     }
   }
 
   render () {
-    const { isLoading } = this.props.auth;
+    const { isLoading } = this.props.auth
     return (
       <div>
         <Segment stacked>
@@ -36,7 +36,7 @@ export class LoginComponent extends Component {
               <Field component={renderInput} type='email' required label='信箱' name='email' />
             </Form.Field>
             <Form.Field>
-              <Field component={renderInput} type='password' required label='密碼' name='password' type='password'/>
+              <Field component={renderInput} type='password' required label='密碼' name='password' />
             </Form.Field>
             <Button type='submit' fluid primary loading={isLoading}>登入</Button>
           </Form>

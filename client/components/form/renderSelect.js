@@ -1,8 +1,9 @@
 import React from 'react'
-import { Label, Select } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
+import { Select } from 'semantic-ui-react'
 
 export const renderSelect = ({ input, label, options, type, meta, required }) => {
-  const { pristine, touched, error, invalid } = meta;
+  const { invalid } = meta
   return (
     <Select
       {...input}
@@ -12,6 +13,15 @@ export const renderSelect = ({ input, label, options, type, meta, required }) =>
       placeholder={label}
       required={required} />
   )
+}
+
+renderSelect.propTypes = {
+  input: PropTypes.object,
+  label: PropTypes.string,
+  options: PropTypes.object,
+  type: PropTypes.string,
+  meta: PropTypes.object,
+  required: PropTypes.bool
 }
 
 export default renderSelect

@@ -3,12 +3,11 @@ import { toastr } from 'react-redux-toastr'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { Button, Form, Modal, Header } from 'semantic-ui-react'
+import { Button, Form, Header } from 'semantic-ui-react'
 import renderInput from '../../components/form/renderInput'
-import { onSignup }  from '../../modules/auth'
+import { onSignup } from '../../modules/auth'
 
 export class MeComponent extends Component {
-
   constructor (props, context) {
     super(props, context)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -17,14 +16,14 @@ export class MeComponent extends Component {
   async handleFormSubmit (formProps) {
     try {
       const response = await this.props.onSignup(formProps)
-      toastr.success('更新成功！');
+      toastr.success('更新成功！')
     } catch (e) {
-      toastr.error(e.message);
+      toastr.error(e.message)
     }
   }
 
   render () {
-    const { isLoading } = this.props.auth;
+    const { isLoading } = this.props.auth
     return (
       <div>
         <Header textAlign='center' as='h1'>會員資料</Header>
@@ -52,7 +51,7 @@ const validate = (formProps) => {
     }
   })
 
-  if (formProps.password != formProps.confirmPassword) {
+  if (formProps.password !== formProps.confirmPassword) {
     errors.confirmPassword = '需與密碼相同'
   }
 
@@ -62,7 +61,7 @@ const validate = (formProps) => {
 const MeForm = reduxForm({
   form: 'me',
   destroyOnUnmount: false,
-  validate,
+  validate
 })(MeComponent)
 
 const mapStateToProps = state => ({

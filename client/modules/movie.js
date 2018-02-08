@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 const initialState = {
   ratingList: [],
@@ -19,31 +19,31 @@ const actionTypes = {
 
 export const onFetchTopList = (host) => async dispatch => {
   try {
-    dispatch({ type: actionTypes.FETCH_TOP_LIST_REQUEST });
-    const res = await axios.get(`http://${host}/api/movie/top`);
-    return dispatch({ type: actionTypes.FETCH_TOP_LIST_SUCCESS, payload: res.data });
+    dispatch({ type: actionTypes.FETCH_TOP_LIST_REQUEST })
+    const res = await axios.get(`http://${host}/api/movie/top`)
+    return dispatch({ type: actionTypes.FETCH_TOP_LIST_SUCCESS, payload: res.data })
   } catch (response) {
-    dispatch({ type: actionTypes.FETCH_LIST_FAIL });
-    throw(response.data)
+    dispatch({ type: actionTypes.FETCH_LIST_FAIL })
+    throw (response.data)
   }
 }
 
 export const onFetchRatingAndRecommendList = (host, cookie) => async dispatch => {
   try {
-    dispatch({ type: actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_REQUEST });
+    dispatch({ type: actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_REQUEST })
     const opts = {
       headers: {
-         Cookie: cookie,
+        Cookie: cookie
       }
     }
     const result = await Promise.all([
       axios.get(`http://${host}/api/movie/rating`, opts),
-      axios.get(`http://${host}/api/movie/recommend`, opts),
-    ]);
-    return dispatch({ type: actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_SUCCESS, payload: result });
+      axios.get(`http://${host}/api/movie/recommend`, opts)
+    ])
+    return dispatch({ type: actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_SUCCESS, payload: result })
   } catch (response) {
-    dispatch({ type: actionTypes.FETCH_LIST_FAIL });
-    throw(response.data)
+    dispatch({ type: actionTypes.FETCH_LIST_FAIL })
+    throw (response.data)
   }
 }
 
@@ -52,14 +52,14 @@ export const onRating = (movieId, rating) => async dispatch => {
     await axios.post(`/api/movie/rating`, {
       MovieId: movieId,
       rating
-    });
-    const res = await axios.get(`/api/movie/recommend`);
+    })
+    const res = await axios.get(`/api/movie/recommend`)
     dispatch({
       type: actionTypes.RELOAD_DATA,
       payload: { movieId, rating, recommendData: res.data }
-    });
+    })
   } catch (response) {
-    throw(response.data)
+    throw (response.data)
   }
 }
 
@@ -68,36 +68,36 @@ export const movieReducer = (state = initialState, action) => {
     case actionTypes.FETCH_TOP_LIST_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        isLoading: true
       }
     case actionTypes.FETCH_TOP_LIST_SUCCESS:
       return {
         ...state,
         recommendList: action.payload.data,
         pageData: action.payload.pageData,
-        isLoading: false,
+        isLoading: false
       }
     case actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_SUCCESS:
-      const ratingData = action.payload[0].data;
-      const recommendData = action.payload[1].data;
+      const ratingData = action.payload[0].data
+      const recommendData = action.payload[1].data
       return {
         ...state,
         ratingList: ratingData.data,
         recommendList: recommendData.data,
-        isLoading: false,
+        isLoading: false
       }
     case actionTypes.FETCH_RATING_AND_RECOMMEND_LIST_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        isLoading: true
       }
     case actionTypes.FETCH_LIST_FAIL:
       return {
         ...state,
-        isLoading: false,
+        isLoading: false
       }
     case actionTypes.RELOAD_DATA:
-      const movieId = action.payload.movieId;
+      const movieId = action.payload.movieId
       const removedMovie = state.recommendList.find(movie => movie.id === movieId)
       return {
         ...state,
@@ -105,12 +105,12 @@ export const movieReducer = (state = initialState, action) => {
           {
             MovieId: movieId,
             rating: action.payload.rating,
-            Movie: removedMovie,
+            Movie: removedMovie
           },
           ...state.ratingList
         ],
         recommendList: action.payload.recommendData.data,
-        isLoading: false,
+        isLoading: false
       }
     default: return state
   }

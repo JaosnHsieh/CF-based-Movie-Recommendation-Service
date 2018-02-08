@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 const initialState = {
   member: {},
@@ -19,67 +19,67 @@ const actionTypes = {
 
 export const getVerifyCode = (formProps) => async dispatch => {
   try {
-    await axios.post('/api/auth/verifyCode', formProps);
-    dispatch({ type: actionTypes.START_TIMER });
+    await axios.post('/api/auth/verifyCode', formProps)
+    dispatch({ type: actionTypes.START_TIMER })
     return setInterval(() => dispatch({ type: actionTypes.TICK }), 1000)
   } catch ({ response }) {
-    dispatch({ type: actionTypes.STOP_TIMER });
-    throw(response.data)
+    dispatch({ type: actionTypes.STOP_TIMER })
+    throw (response.data)
   }
 }
 
 export const onForgotPw = (formProps) => async dispatch => {
   try {
-    dispatch({ type: actionTypes.START_TIMER });
-    const res = await axios.post('/api/auth/forgotpw', formProps);
+    dispatch({ type: actionTypes.START_TIMER })
+    await axios.post('/api/auth/forgotpw', formProps)
     return setInterval(() => dispatch({ type: actionTypes.TICK }), 1000)
   } catch ({ response }) {
-    dispatch({ type: actionTypes.STOP_TIMER });
-    throw(response.data)
+    dispatch({ type: actionTypes.STOP_TIMER })
+    throw (response.data)
   }
 }
 
 export const onLogin = (formProps) => async dispatch => {
   try {
-    dispatch({ type: actionTypes.FORM_SUBMIT_REQUEST });
-    const res = await axios.post(`/api/auth/login${window.location.search}`, formProps);
+    dispatch({ type: actionTypes.FORM_SUBMIT_REQUEST })
+    const res = await axios.post(`/api/auth/login${window.location.search}`, formProps)
     dispatch({ type: actionTypes.FORM_SUBMIT_SUCCESS, payload: res.data })
   } catch ({ response }) {
     dispatch({ type: actionTypes.FORM_SUBMIT_FAIL })
-    throw(response.data)
+    throw (response.data)
   }
 }
 
 export const onResetPw = (formProps) => async dispatch => {
   try {
-    dispatch({ type: actionTypes.FORM_SUBMIT_REQUEST });
-    const res = await axios.patch('/api/auth/resetpw', formProps);
+    dispatch({ type: actionTypes.FORM_SUBMIT_REQUEST })
+    const res = await axios.patch('/api/auth/resetpw', formProps)
     dispatch({ type: actionTypes.FORM_SUBMIT_SUCCESS, payload: res.data })
   } catch ({ response }) {
     dispatch({ type: actionTypes.FORM_SUBMIT_FAIL })
-    throw(response.data)
+    throw (response.data)
   }
 }
 
 export const onSignup = (formProps) => async dispatch => {
   try {
-    dispatch({ type: actionTypes.FORM_SUBMIT_REQUEST });
-    const res = await axios.post(`/api/auth/signup${window.location.search}`, formProps);
+    dispatch({ type: actionTypes.FORM_SUBMIT_REQUEST })
+    const res = await axios.post(`/api/auth/signup${window.location.search}`, formProps)
     dispatch({ type: actionTypes.FORM_SUBMIT_SUCCESS, payload: res.data })
   } catch ({ response }) {
     dispatch({ type: actionTypes.FORM_SUBMIT_FAIL })
-    throw(response.data)
+    throw (response.data)
   }
 }
 
 export const onUpdatePw = (formProps) => async dispatch => {
   try {
-    dispatch({ type: actionTypes.FORM_SUBMIT_REQUEST });
-    const res = await axios.patch('/api/member/updatepw', formProps);
+    dispatch({ type: actionTypes.FORM_SUBMIT_REQUEST })
+    const res = await axios.patch('/api/member/updatepw', formProps)
     dispatch({ type: actionTypes.FORM_SUBMIT_SUCCESS, payload: res.data })
   } catch ({ response }) {
     dispatch({ type: actionTypes.FORM_SUBMIT_FAIL })
-    throw(response.data)
+    throw (response.data)
   }
 }
 
@@ -88,22 +88,22 @@ export const authReducer = (state = initialState, action) => {
     case actionTypes.INIT_MEMBER_DATA:
       return {
         ...state,
-        member: action.payload,
+        member: action.payload
       }
     case actionTypes.FORM_SUBMIT_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        isLoading: true
       }
     case actionTypes.FORM_SUBMIT_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        isLoading: false
       }
     case actionTypes.FORM_SUBMIT_FAIL:
       return {
         ...state,
-        isLoading: false,
+        isLoading: false
       }
     case actionTypes.START_TIMER:
       return {

@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 const initialState = {
   host: '',
   pathname: '',
@@ -9,7 +7,7 @@ const initialState = {
 
 const actionTypes = {
   INIT_SOURCE_REQUEST: 'INIT_SOURCE_REQUEST',
-  INIT_SESSION_MEMBER: 'INIT_SESSION_MEMBER',
+  INIT_SESSION_MEMBER: 'INIT_SESSION_MEMBER'
 }
 
 export const sourceRequestReducer = (state = initialState, action) => {
@@ -18,13 +16,13 @@ export const sourceRequestReducer = (state = initialState, action) => {
       return {
         ...state,
         host: action.payload.host,
-        pathname: action.payload.pathname,
+        pathname: action.payload.pathname
       }
     case actionTypes.INIT_SESSION_MEMBER:
       return {
         ...state,
         isLogined: true,
-        sessionMember: action.payload,
+        sessionMember: action.payload
       }
     default: return state
   }

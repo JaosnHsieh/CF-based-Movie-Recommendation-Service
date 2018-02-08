@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { toastr } from 'react-redux-toastr'
 import { bindActionCreators } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { Button, Form, Header, Label, Modal, Segment } from 'semantic-ui-react'
+import { Button, Form, Header, Segment } from 'semantic-ui-react'
 import renderInput from '../../components/form/renderInput'
-import { onForgotPw, onResetPw }  from '../../modules/auth'
+import { onForgotPw, onResetPw } from '../../modules/auth'
 
 export class ForgotPwComponent extends Component {
   constructor (props, context) {
@@ -17,9 +17,9 @@ export class ForgotPwComponent extends Component {
   async handleFormSubmit (formProps) {
     try {
       await this.props.onResetPw(formProps)
-      toastr.success('密碼更新成功，請用新密碼登入！');
+      toastr.success('密碼更新成功，請用新密碼登入！')
     } catch (e) {
-      toastr.error(e.message);
+      toastr.error(e.message)
     }
   }
 
@@ -28,20 +28,20 @@ export class ForgotPwComponent extends Component {
       const response = await this.props.onForgotPw({
         provider: this.props.auth.type,
         ...this.props.forgotPw.values
-      });
+      })
     } catch (e) {
-      toastr.error(e.message);
+      toastr.error(e.message)
     }
   }
 
   render () {
-    const { verifyCodeTimer, isLoading } = this.props.auth;
-    const showVerifyCodeTimer = verifyCodeTimer > 0;
+    const { verifyCodeTimer, isLoading } = this.props.auth
+    const showVerifyCodeTimer = verifyCodeTimer > 0
 
     const { values: formValues } = this.props.forgotPw || {}
     let activeVerifyButton = false
     if (formValues) {
-      activeVerifyButton = formValues.email;
+      activeVerifyButton = formValues.email
     }
     return (
       <div>
@@ -66,10 +66,10 @@ export class ForgotPwComponent extends Component {
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
-                <Field component={renderInput} type='password' required label='新密碼' name='password' type='password'/>
+                <Field component={renderInput} type='password' required label='新密碼' name='password' />
               </Form.Field>
               <Form.Field>
-                <Field component={renderInput} type='password' required label='確認新密碼' name='confirmPassword' type='password'/>
+                <Field component={renderInput} type='password' required label='確認新密碼' name='confirmPassword' />
               </Form.Field>
             </Form.Group>
             <Button type='submit' fluid primary loading={isLoading}>送出</Button>
@@ -93,7 +93,7 @@ const validate = (formProps) => {
     }
   })
 
-  if (formProps.password != formProps.confirmPassword) {
+  if (formProps.password !== formProps.confirmPassword) {
     errors.confirmPassword = '需與密碼相同'
   }
 
