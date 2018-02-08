@@ -47,7 +47,7 @@ npm run build
 npm run prod
 ```
 
-## Future
+## Todo
 - [ ] Use CF algorithms.
 - [ ] Complete all member flow, ex: forgotPw, resetPw, updateProfile
 - [ ] Add pagination for movie list.
