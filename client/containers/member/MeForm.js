@@ -15,7 +15,7 @@ export class MeComponent extends Component {
 
   async handleFormSubmit (formProps) {
     try {
-      const response = await this.props.onSignup(formProps)
+      await this.props.onSignup(formProps)
       toastr.success('更新成功！')
     } catch (e) {
       toastr.error(e.message)

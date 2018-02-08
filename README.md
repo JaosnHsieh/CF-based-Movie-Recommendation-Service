@@ -57,6 +57,7 @@ npm run prod
 * [Next.js](https://github.com/zeit/next.js/) - The react web framework used
 * [Semantic UI React](http://react.semantic-ui.com) - UI toolkit
 * [MovieLens dataset](http://grouplens.org/datasets/movielens/) - movie data
+* [Eslint - standardjs](https://standardjs.com/) - JavaScript Standard Style
 
 ## License
 

@@ -30,7 +30,7 @@ export class SignupComponent extends Component {
 
   async getVerifyCode () {
     try {
-      const response = await this.props.getVerifyCode({
+      await this.props.getVerifyCode({
         provider: this.props.auth.type,
         ...this.props.signup.values
       })
@@ -40,7 +40,7 @@ export class SignupComponent extends Component {
   }
 
   render () {
-    const { type, verifyCodeTimer, isLoading } = this.props.auth
+    const { verifyCodeTimer, isLoading } = this.props.auth
     const showVerifyCodeTimer = verifyCodeTimer > 0
 
     const { values: formValues } = this.props.signup || {}

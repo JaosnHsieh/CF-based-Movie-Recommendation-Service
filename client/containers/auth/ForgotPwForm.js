@@ -25,7 +25,7 @@ export class ForgotPwComponent extends Component {
 
   async getVerifyCode () {
     try {
-      const response = await this.props.onForgotPw({
+      await this.props.onForgotPw({
         provider: this.props.auth.type,
         ...this.props.forgotPw.values
       })

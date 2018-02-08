@@ -12,7 +12,7 @@ const standardLayoutHoc = (Page, title) => {
       const pageProps =
         (await Page.getInitialProps) && (await Page.getInitialProps(ctx))
       const { headers, session } = ctx.req
-      const isLogined = session && session.member
+      const isLogined = !!(session && session.member)
       const sourceRequest = {
         host: headers.host,
         pathname: ctx.pathname
