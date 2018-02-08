@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { toastr } from 'react-redux-toastr'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -92,5 +93,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = bindActionCreators.bind(null, {
   onRating
 })
+
+HomeIndex.propTypes = {
+  movie: PropTypes.object,
+  isLogined: PropTypes.bool,
+  onRating: PropTypes.func
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeIndex)
