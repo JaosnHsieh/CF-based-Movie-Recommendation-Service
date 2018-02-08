@@ -20,7 +20,7 @@ cp config/default.json config/develop.json
 
 - Import demo data
 
-You can import `demo.sql` and use account to login.
+You can import `./schema/demo.sql` and use account to login.
 
 ```
 admin@demo.gmail.com
