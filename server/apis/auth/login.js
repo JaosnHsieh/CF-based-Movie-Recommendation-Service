@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
             throw new Error('10000');
         }
 
-        const member = await db.Member.findOne({ email });
+        const member = await db.Member.findOne({ where: { email }});
 
         if (!member) {
             throw new Error('10001');

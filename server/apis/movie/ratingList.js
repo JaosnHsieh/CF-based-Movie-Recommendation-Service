@@ -17,11 +17,7 @@ module.exports = async (req, res, next) => {
             }],
             limit: 12
         });
-
-        const pageData = {
-        };
-
-        return res.json({ data, pageData });
+        return res.json({ data });
 
     } catch(err) {
         return next(err);
